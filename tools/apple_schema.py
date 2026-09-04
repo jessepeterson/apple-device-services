@@ -238,8 +238,11 @@ def apple_type_to_schema(
     expr = "".join(texts)
     is_array = expr.startswith("[") and expr.endswith("]")
     inner = expr[1:-1] if is_array else expr
+    # `$ref` targets a sibling schema file, so the type name needs its `.json`
+    # extension appended (the type name is the filename sans extension).
+    ref_file = (ref + ".json") if ref else None
     if ref and inner == ref:
-        elem: dict[str, Any] = {"$ref": ref}
+        elem: dict[str, Any] = {"$ref": ref_file}
     elif inner in STRING_FORMATS:
         elem = {"type": "string", "format": inner}
     else:
@@ -247,7 +250,7 @@ def apple_type_to_schema(
     if is_array:
         return {"type": "array", "items": elem}, ref
     if ref:
-        return {"$ref": ref}, ref
+        return {"$ref": ref_file}, ref
     return elem, None
 
 
@@ -262,17 +265,26 @@ def extract_apple_properties(doc: JSON) -> dict[str, dict[str, Any]]:
             name = it.get("name")
             type_dict, ref = apple_type_to_schema(it.get("type", []))
             desc, codes = content_to_commonmark(it.get("content", []), refs)
-            # NOTE: Apple's JSON has NO structured `enum` field. `codeVoice`
-            # (the `codes` list) is a heuristic: every `codeVoice`/`code` token
-            # from the description prose, collected regardless of whether it is
-            # an enum literal or inline code. Any `enum` derived from it is
-            # best-effort and must be reviewed (see `sync --enums`).
+            # Apple now exposes a structured `required` flag per property, but it
+            # is only meaningful in some namespaces (e.g. ANB); others (e.g. DEP)
+            # report `false` for every property. Capture it anyway and let callers
+            # decide how much to trust it.
+            required = bool(it.get("required"))
+            # Structured enums live in `attributes[]` as `allowedValues`. This is
+            # authoritative, unlike the `codeVoice` prose-token heuristic.
+            allowed_values = None
+            for attr in it.get("attributes", []):
+                if attr.get("kind") == "allowedValues":
+                    allowed_values = attr.get("values")
+                    break
             props[name] = {
                 "type": type_dict,
                 "ref": ref,
                 "description": desc,
                 "codeVoice": codes,
                 "datetime_hint": "ISO 8601" in desc,
+                "required": required,
+                "allowedValues": allowed_values,
             }
     return props
 
@@ -291,6 +303,28 @@ def type_key(type_dict: dict[str, Any] | None) -> str | None:
     return type_dict.get("type")
 
 
+def type_ref(type_dict: dict[str, Any] | None) -> str | None:
+    """Return a ``$ref`` from a type dict, at top level or inside array ``items``.
+
+    Works on both Apple's computed type dict and a stored schema property.
+    """
+    if not isinstance(type_dict, dict):
+        return None
+    if "$ref" in type_dict:
+        return type_dict["$ref"]
+    items = type_dict.get("items")
+    if isinstance(items, dict):
+        return items.get("$ref")
+    return None
+
+
+def enum_slot(entry: dict[str, Any]) -> dict[str, Any]:
+    """Return the dict an ``enum`` belongs in (array ``items`` or the entry itself)."""
+    if entry.get("type") == "array":
+        return entry.setdefault("items", {})
+    return entry
+
+
 def apple_property_schema(
     ap: dict[str, Any], with_enums: bool = False
 ) -> dict[str, Any]:
@@ -300,10 +334,14 @@ def apple_property_schema(
         entry["description"] = ap["description"]
     if ap["datetime_hint"]:
         entry["format"] = "date-time"
-    if with_enums and ap["codeVoice"]:
+    if ap["allowedValues"]:
+        # Structured enum from `attributes[].allowedValues` — authoritative.
+        # For arrays, the enum constrains the element type, not the array.
+        enum_slot(entry)["enum"] = list(ap["allowedValues"])
+    elif with_enums and ap["codeVoice"]:
         # Heuristic enum from prose `codeVoice` tokens — noisy by design,
         # intended only for review (see extract_apple_properties).
-        entry["enum"] = ap["codeVoice"]
+        enum_slot(entry)["enum"] = ap["codeVoice"]
     return entry
 
 
@@ -352,8 +390,7 @@ def endpoint_types(doc: JSON) -> dict[str, str | None]:
         for t in type_list:
             if t.get("kind") == "typeIdentifier":
                 name = t.get("text")
-                if not name or "." in name:
-                    # dotted names are sub-objects ($defs/inlined), not files
+                if not name:
                     continue
                 ident = t.get("identifier")
                 result[name] = refs.get(ident, {}).get("url") if ident else None
@@ -361,7 +398,7 @@ def endpoint_types(doc: JSON) -> dict[str, str | None]:
 
 
 def property_type_refs(doc: JSON) -> dict[str, str | None]:
-    """Return ``{type_name: url}`` for nested property types (non-dotted names)."""
+    """Return ``{type_name: url}`` for nested property types (dotted or not)."""
     refs = doc.get("references", {})
     result: dict[str, str | None] = {}
     for sec in doc.get("primaryContentSections", []):
@@ -372,8 +409,7 @@ def property_type_refs(doc: JSON) -> dict[str, str | None]:
                 if t.get("kind") != "typeIdentifier":
                     continue
                 name = t.get("text")
-                if not name or "." in name:
-                    # dotted names are sub-objects ($defs/inlined), not files
+                if not name:
                     continue
                 ident = t.get("identifier")
                 result[name] = refs.get(ident, {}).get("url") if ident else None
@@ -407,8 +443,9 @@ def collect_schema_items(
         kind = meta.get("symbolKind")
         title = meta.get("title")
 
-        # A dictionary is itself a schema type (dotted names are inlined sub-objects).
-        if kind == "dictionary" and title and "." not in title:
+        # A dictionary is itself a schema type (dotted names are nested
+        # dictionaries generated as their own files).
+        if kind == "dictionary" and title:
             items.setdefault(title, path)
 
         # Nav traversal: recurse into child symbols, collections, and groups.
@@ -458,8 +495,11 @@ def generate_schema(doc: JSON, data_uri: str) -> JSON:
     abstract, _ = inline_tokens_to_commonmark(doc.get("abstract", []), refs)
 
     properties: dict[str, Any] = {}
+    required: list[str] = []
     for name, ap in extract_apple_properties(doc).items():
         properties[name] = apple_property_schema(ap)
+        if ap["required"]:
+            required.append(name)
 
     api_uri = None
     variants = doc.get("variants", [])
@@ -477,6 +517,8 @@ def generate_schema(doc: JSON, data_uri: str) -> JSON:
     schema["x-apple-developer-data-uri"] = data_uri
     schema["type"] = "object"
     schema["properties"] = properties
+    if required:
+        schema["required"] = required
 
     return schema
 
@@ -487,8 +529,11 @@ def merge_schema(
     """Mutate a loaded schema in place from Apple's doc; return a summary.
 
     Additive/overwrite only: adds new properties, overwrites title, description,
-    type, and (optionally) enum; never removes properties, ``required``, or
-    other curated fields.
+    type, structured enum, and bare sibling ``$ref`` values (but never JSON
+    pointers or absolute URIs); never removes properties or hand-curated
+    ``required`` entries (some namespaces report ``required: false`` for every
+    property, so the repo's hand-derived lists must be preserved). Apple's
+    structured ``required`` flags are added to ``required`` but never dropped.
     """
     apple_props = extract_apple_properties(doc)
     apple_title = doc.get("metadata", {}).get("title")
@@ -512,6 +557,7 @@ def merge_schema(
     type_changed: list[str] = []
     desc_changed: list[str] = []
     enum_changed: list[str] = []
+    ref_changed: list[str] = []
     for pname, ap in apple_props.items():
         if pname not in props:
             props[pname] = apple_property_schema(ap, with_enums=with_enums)
@@ -523,16 +569,51 @@ def merge_schema(
             if at and st and at != st:
                 apply_type(sp, ap["type"])
                 type_changed.append(pname)
+            # `$ref`: sync bare sibling refs from Apple's type (adds `.json`,
+            # follows renames). JSON pointers (`#/...`) and absolute URIs are
+            # hand-curated conventions (`$defs`, external URLs) — never touch.
+            ap_ref = type_ref(ap["type"])
+            sp_ref = type_ref(sp)
+            if (
+                ap_ref
+                and sp_ref
+                and not sp_ref.startswith("#")
+                and "://" not in sp_ref
+                and sp_ref != ap_ref
+            ):
+                apply_type(sp, ap["type"])
+                ref_changed.append(pname)
             if ap["description"] and norm(sp.get("description")) != norm(
                 ap["description"]
             ):
                 sp["description"] = ap["description"]
                 desc_changed.append(pname)
-            # `--enums`: mix in the heuristic enum (raw `codeVoice` tokens) for
-            # review only — noisy by design.
-            if with_enums and ap["codeVoice"] and sp.get("enum") != ap["codeVoice"]:
-                sp["enum"] = ap["codeVoice"]
+            # Structured enum (`attributes[].allowedValues`) is authoritative;
+            # overwrite like `type`.
+            if ap["allowedValues"] and enum_slot(sp).get("enum") != ap["allowedValues"]:
+                enum_slot(sp)["enum"] = list(ap["allowedValues"])
                 enum_changed.append(pname)
+            # `--enums`: mix in the heuristic enum (raw `codeVoice` tokens) for
+            # review only, where no structured enum exists.
+            if (
+                with_enums
+                and ap["codeVoice"]
+                and not ap["allowedValues"]
+                and enum_slot(sp).get("enum") != ap["codeVoice"]
+            ):
+                enum_slot(sp)["enum"] = ap["codeVoice"]
+                enum_changed.append(pname)
+
+    # `required`: additive union. Never drop hand-curated entries (some
+    # namespaces, e.g. DEP, report `required: false` for every property), but
+    # add Apple-declared required properties.
+    existing_required: list[str] = list(schema.get("required") or [])
+    existing_set = set(existing_required)
+    required_added: list[str] = [
+        p for p in apple_props if apple_props[p]["required"] and p not in existing_set
+    ]
+    if required_added:
+        schema["required"] = existing_required + required_added
 
     # Repo-only properties (present in the schema but not Apple's docs) are
     # kept, not removed — surfaced here since `git diff` won't show them.
@@ -546,6 +627,10 @@ def merge_schema(
         summary["property_description_changed"] = desc_changed
     if enum_changed:
         summary["enum_changed"] = enum_changed
+    if ref_changed:
+        summary["ref_changed"] = ref_changed
+    if required_added:
+        summary["required_added"] = required_added
     if kept:
         summary["kept_repo_only"] = kept
     return summary
@@ -559,6 +644,8 @@ _CHANGE_KEYS = (
     "type_changed",
     "property_description_changed",
     "enum_changed",
+    "ref_changed",
+    "required_added",
 )
 
 
@@ -859,7 +946,7 @@ def main() -> None:
     s.add_argument(
         "--enums",
         action="store_true",
-        help="also mix in enum candidates from codeVoice tokens (noisy; review via git diff)",
+        help="also mix in enum candidates from codeVoice tokens where no structured enum exists (noisy; review via git diff)",
     )
     add_cache_args(s)
     s.set_defaults(func=cmd_sync)
