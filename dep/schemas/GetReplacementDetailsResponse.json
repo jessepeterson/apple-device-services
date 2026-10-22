@@ -11,10 +11,6 @@
     "replacement_date"
   ],
   "properties": {
-    "serial_number": {
-      "description": "The serial number of the replacement device.",
-      "type": "string"
-    },
     "original_device_serial_number": {
       "description": "The serial number of the original device that this device replaces.",
       "type": "string"
@@ -24,6 +20,10 @@
       "examples": [ "2025-01-15" ],
       "type": "string",
       "format": "date"
+    },
+    "serial_number": {
+      "description": "The serial number of the replacement device.",
+      "type": "string"
     }
   }
 }
