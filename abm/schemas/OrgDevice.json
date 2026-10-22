@@ -7,18 +7,13 @@
   "type": "object",
   "required": [ "id", "type" ],
   "properties": {
-    "id": {
-      "description": "The opaque resource ID that uniquely identifies the resource.",
-      "type": "string"
-    },
-    "type": {
-      "description": "The resource type.",
-      "default": "orgDevices",
-      "type": "string"
-    },
     "attributes": {
       "description": "The resource’s attributes.",
       "$ref": "#/$defs/OrgDevice.Attributes"
+    },
+    "id": {
+      "description": "The opaque resource ID that uniquely identifies the resource.",
+      "type": "string"
     },
     "links": {
       "description": "Navigational links that include the self-link.",
@@ -27,6 +22,11 @@
     "relationships": {
       "description": "Navigational links to related data and included resource types and IDs.",
       "$ref": "#/$defs/OrgDevice.Relationships"
+    },
+    "type": {
+      "description": "The resource type.",
+      "default": "orgDevices",
+      "type": "string"
     }
   },
   "$defs": {

@@ -7,22 +7,22 @@
   "type": "object",
   "required": [ "type", "id" ],
   "properties": {
+    "attributes": {
+      "description": "The resource’s attributes.",
+      "$ref": "#/$defs/MdmServer.Attributes"
+    },
     "id": {
       "description": "The opaque resource ID that uniquely identifies the resource.",
       "type": "string"
+    },
+    "relationships": {
+      "description": "Navigational links to related data and included resource types and IDs.",
+      "$ref": "#/$defs/MdmServer.Relationships"
     },
     "type": {
       "description": "The resource type.",
       "default": "mdmServers",
       "type": "string"
-    },
-    "attributes": {
-      "description": "The resource’s attributes.",
-      "$ref": "#/$defs/MdmServer.Attributes"
-    },
-    "relationships": {
-      "description": "Navigational links to related data and included resource types and IDs.",
-      "$ref": "#/$defs/MdmServer.Relationships"
     }
   },
   "$defs": {
