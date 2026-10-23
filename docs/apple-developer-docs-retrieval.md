@@ -107,9 +107,28 @@ HTML page.
 
 The JSON document has a stable shape. Relevant fields:
 
-- `abstract[]` — the page description (maps to our `description`).
+- `abstract[]` — the page description. It is one part of the schema's
+  `description`, joined with the availability line of
+  `metadata.platforms[].introducedAt` and the prose of the Discussion section:
+  `"\n\n".join(abstract, introduced, discussion)`, skipping the parts the
+  document does not have.
 - `metadata` — symbol identity:
   - `title` — the type name (maps to our `title`).
+  - `platforms[]` — availability: each platform the document is available on
+    names the version that introduced it (`name`, `introducedAt`). The version
+    is the description's availability line — "Introduced in Apple Business API
+    2.6." — and the `x-apple-developer-api-version` extension field, matching
+    the availability line the documentation front-end renders from the same
+    field.
+
+    The field is only as faithful as Apple's stenciling of it. Device
+    Assignment Services varies it per type — 5.0 for the original endpoints,
+    5.1 for the account-driven-enrollment ones — but the Apple Business API
+    namespace reports one version for every document ("2.6" today) — a whole
+    namespace's "current version" reading — the front-end showed 1.1+ when its
+    pages were curated by hand. And some documents carry no `platforms` entry at
+    all — DAS's response types do not — so they assert no version. Take the
+    line as what the front-end shows, not as a per-type feature history.
   - `symbolKind` — e.g. `dictionary` (data type), `typealias` (enum-like string
     type) or `httpRequest` (endpoint).
   - `roleHeading` — e.g. `Object`.
@@ -156,8 +175,9 @@ allowed values:
 
 The `values[].name` entries are authoritative — they are the type's allowed
 values, and they map directly to a JSON Schema `enum` (or `const`, see below).
-The per-value `content[]` is empty; the prose explaining each value lives in a
-separate `content` section of the same document.
+The per-value `content[]` is empty; the prose explaining each value lives in
+the "Possible Values" unordered list of the document's Discussion section, and
+it maps into the schema's `description` as one Markdown bullet per value.
 
 Such a type alias becomes a schema of its own:
 
@@ -165,7 +185,8 @@ Such a type alias becomes a schema of its own:
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ActivationLockType",
-  "description": "Strings that represent the type of Activation Lock on a device.",
+  "description": "Strings that represent the type of Activation Lock on a device.\n\nIntroduced in Apple Business API 2.6.\n\n- Possible Values\n  \n  - MDM: The device is Activation Locked by its device management service.\n  - USER: The device is Activation Locked to a personal Apple Account.\n  - NONE: The device isn’t Activation Locked.",
+  "x-apple-developer-api-version": "2.6",
   "enum": [ "MDM", "USER", "NONE" ]
 }
 ```

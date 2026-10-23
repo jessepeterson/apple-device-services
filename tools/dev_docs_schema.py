@@ -321,11 +321,27 @@ def inline_text(tokens: list[JSON], refs: JSON) -> str:
     return "".join(parts)
 
 
+def block_text(block: JSON, refs: JSON) -> str:
+    """Render one content block as Markdown."""
+    kind = block.get("type")
+    if kind == "paragraph":
+        return inline_text(block.get("inlineContent", []), refs)
+    if kind == "unorderedList":
+        items: list[str] = []
+        for item in block.get("items", []):
+            text = content_text(item.get("content", []), refs)
+            # Indent a multi-line item's continuation beneath its bullet.
+            items.append(f"- {text}".replace("\n", "\n  "))
+        return "\n".join(items)
+    # Headings and other blocks carry no body text here.
+    return ""
+
+
 def content_text(blocks: list[JSON], refs: JSON) -> str:
     """Render a content block list as Markdown paragraphs."""
     paragraphs: list[str] = []
     for block in blocks:
-        text = inline_text(block.get("inlineContent", []), refs)
+        text = block_text(block, refs)
         if text:
             paragraphs.append(text)
     return "\n\n".join(paragraphs).strip()
@@ -457,6 +473,63 @@ def map_value(doc: JSON) -> dict[str, Any] | None:
     return type_schema(items[0].get("type", []))
 
 
+def introduced_text(doc: JSON) -> str:
+    """Render an Apple document's availability as a prose sentence.
+
+    The availability lives in the metadata: every platform the document is
+    available on names the version that introduced it — "Apple Business API
+    2.6" or "Device Assignment Services 5.0".
+    """
+    platforms = doc.get("metadata", {}).get("platforms") or []
+    names = [
+        f"{p.get('name')} {p['introducedAt']}"
+        for p in platforms
+        if p.get("introducedAt")
+    ]
+    if not names:
+        return ""
+    return f"Introduced in {', '.join(names)}."
+
+
+def api_version(doc: JSON) -> str | None:
+    """Return the version of the API a document was introduced in.
+
+    A document of one platform (the repositories' two namespaces are) names
+    one version. The OS platforms of the wider Device Management namespace
+    name several, so their versions are returned with the platform's own
+    name — "iOS 7.0, macOS 10.9" — to stay distinct.
+    """
+    platforms = doc.get("metadata", {}).get("platforms") or []
+    versions = [p for p in platforms if p.get("introducedAt")]
+    if not versions:
+        return None
+    if len(versions) == 1:
+        return versions[0]["introducedAt"]
+    return ", ".join(f"{p.get('name')} {p['introducedAt']}" for p in versions)
+
+
+def discussion_text(doc: JSON, refs: JSON) -> str:
+    """Render a document's Discussion section as Markdown.
+
+    The discussion is the content section whose first block is a
+    "Discussion" heading; the heading itself carries no prose. The prose of
+    an enum-like type's discussion is an unorderedList of one
+    "NAME: what it means" bullet per possible value — a plain-paragraph
+    one is prose about the type.
+    """
+    for section in doc.get("primaryContentSections", []):
+        if section.get("kind") != "content":
+            continue
+        blocks = section.get("content") or []
+        heading = blocks[0] if blocks else {}
+        if (
+            heading.get("type") == "heading"
+            and heading.get("text") == "Discussion"
+        ):
+            return content_text(blocks[1:], refs)
+    return ""
+
+
 def document_uris(
     doc: JSON, data_base: str = DATA_BASE
 ) -> tuple[str | None, str | None]:
@@ -480,8 +553,20 @@ def document_schema(doc: JSON, data_base: str = DATA_BASE) -> JSON:
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "title": meta.get("title"),
     }
-    if abstract:
-        schema["description"] = abstract
+    description = "\n\n".join(
+        part
+        for part in (
+            abstract,
+            introduced_text(doc),
+            discussion_text(doc, refs),
+        )
+        if part
+    )
+    if description:
+        schema["description"] = description
+    version = api_version(doc)
+    if version:
+        schema["x-apple-developer-api-version"] = version
     api_uri, data_uri = document_uris(doc, data_base)
     if api_uri:
         schema["x-apple-developer-api-uri"] = api_uri
