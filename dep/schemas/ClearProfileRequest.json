@@ -1,8 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ClearProfileRequest",
-  "description": "The request used to remove a profile from devices.",
+  "description": "The request used to remove a profile from devices.\n\nIntroduced in Device Assignment Services 5.0.",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/clearprofilerequest",
+  "x-apple-developer-api-version": "5.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/clearprofilerequest.json",
   "type": "object",
   "properties": {

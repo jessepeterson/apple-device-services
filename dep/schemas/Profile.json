@@ -1,8 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Profile",
-  "description": "A profile’s properties and their values.",
+  "description": "A profile’s properties and their values.\n\nIntroduced in Device Assignment Services 5.0.",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/profile",
+  "x-apple-developer-api-version": "5.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/profile.json",
   "type": "object",
   "required": [ "is_mdm_removable", "org_magic" ],

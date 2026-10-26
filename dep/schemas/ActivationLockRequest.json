@@ -1,9 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ActivationLockRequest",
-  "description": "Request enabling activation lock for a device.",
+  "description": "Request enabling activation lock for a device.\n\nIntroduced in Device Assignment Services 5.0.",
   "$comment": "Examples taken from deprecated PDF MDM documentation.",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/activationlockrequest",
+  "x-apple-developer-api-version": "5.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/activationlockrequest.json",
   "type": "object",
   "required": [ "device" ],

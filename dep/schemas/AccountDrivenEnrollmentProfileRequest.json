@@ -1,8 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AccountDrivenEnrollmentProfileRequest",
-  "description": "The details for an account-driven enrollment profile.",
+  "description": "The details for an account-driven enrollment profile.\n\nIntroduced in Device Assignment Services 5.1.",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/accountdrivenenrollmentprofilerequest",
+  "x-apple-developer-api-version": "5.1",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/accountdrivenenrollmentprofilerequest.json",
   "type": "object",
   "required": [ "mdm_service_discovery_url" ],

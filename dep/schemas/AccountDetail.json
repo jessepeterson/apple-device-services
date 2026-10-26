@@ -1,8 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AccountDetail",
-  "description": "The response that contains the details for an account.",
+  "description": "The response that contains the details for an account.\n\nIntroduced in Device Assignment Services 5.0.",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/accountdetail",
+  "x-apple-developer-api-version": "5.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/accountdetail.json",
   "type": "object",
   "properties": {

@@ -1,8 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "GetSeedBuildTokenResponse",
-  "description": "Provides a list of beta enrollment tokens available for the given organization.",
+  "description": "Provides a list of beta enrollment tokens available for the given organization.\n\nIntroduced in Device Assignment Services 5.1.",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/getseedbuildtokenresponse",
+  "x-apple-developer-api-version": "5.1",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/getseedbuildtokenresponse.json",
   "type": "object",
   "properties": {

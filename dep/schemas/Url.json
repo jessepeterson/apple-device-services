@@ -1,8 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Url",
-  "description": "A URL object.",
+  "description": "A URL object.\n\nIntroduced in Device Assignment Services 5.0.",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/url",
+  "x-apple-developer-api-version": "5.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/url.json",
   "type": "object",
   "properties": {
