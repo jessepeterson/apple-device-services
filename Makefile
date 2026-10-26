@@ -2,12 +2,11 @@ all: generate-dep
 
 generate-dep:
 	tools/dev_docs_schema.py generate devicemanagement/device-assignment.json dep/schemas
-	# remove unneeded generated schema files
 	rm dep/schemas/MachineInfo.json dep/schemas/SkipKeys.json
 	tools/dev_docs_schema.py generate devicemanagement/accountdetail.json dep/schemas
-	tools/sort.sh dep/patches
+	tools/sortkeys.py dep/patches/*.json
 	tools/apply_schema_patches.py dep/patches dep/schemas
-	tools/sort.sh dep/schemas
+	tools/sortkeys.py dep/schemas/*.json
 	jsonschema fmt dep/schemas
 
 fetch-dep:
