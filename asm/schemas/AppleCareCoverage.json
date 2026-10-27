@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AppleCareCoverage",
+  "description": "The data structure that represents an AppleCare coverage resource that belongs to an organization device.\n\nIntroduced in Apple School Manager API 1.7.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/appleschoolmanagerapi/applecarecoverage",
+  "x-apple-developer-api-version": "1.7",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/appleschoolmanagerapi/applecarecoverage.json",
+  "type": "object",
+  "required": [ "id", "type" ],
+  "properties": {
+    "attributes": {
+      "description": "The resource’s attributes.",
+      "$ref": "AppleCareCoverage.Attributes.json"
+    },
+    "id": {
+      "description": "The opaque resource ID that uniquely identifies the resource.",
+      "type": "string"
+    },
+    "type": {
+      "description": "The resource type.",
+      "const": "appleCareCoverage"
+    }
+  }
+}

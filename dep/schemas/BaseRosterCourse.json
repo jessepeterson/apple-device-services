@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BaseRosterCourse",
+  "description": "A base course’s properties and their values.\n\nIntroduced in Device Assignment Services 5.0.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/baserostercourse",
+  "x-apple-developer-api-version": "5.0",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/baserostercourse.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The course name. The maximum length is 1024 UTF-8 characters.",
+      "type": "string"
+    },
+    "unique_identifier": {
+      "description": "The global unique identifier for the location. The maximum length is 256 UTF-8 characters.",
+      "type": "string"
+    }
+  }
+}
