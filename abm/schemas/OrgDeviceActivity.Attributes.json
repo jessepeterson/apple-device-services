@@ -23,11 +23,22 @@
     },
     "status": {
       "description": "The top-level status of an activity. For more details, see the table below. Possible values: `COMPLETED`,  `IN_PROGRESS`, `STOPPED`, `FAILED`",
-      "type": "string"
+      "enum": [ "COMPLETED", "IN_PROGRESS", "STOPPED", "FAILED" ]
     },
     "subStatus": {
       "description": "The low-level status of an activity. For more details, see the table below. Possible values: `SUBMITTED`,`PRE_PROCESSING`,`PENDING`,`PROCESSING`,`POST_PROCESSING`,              `STOPPING`,`COMPLETED_WITH_SUCCESS`,`COMPLETED_WITH_ERROR`,`COMPLETED_WITH_FAILURE`,`COMPLETED_POST_PROCESSING_FAILED`",
-      "type": "string"
+      "enum": [
+        "SUBMITTED",
+        "PRE_PROCESSING",
+        "PENDING",
+        "PROCESSING",
+        "POST_PROCESSING",
+        "STOPPING",
+        "COMPLETED_WITH_SUCCESS",
+        "COMPLETED_WITH_ERROR",
+        "COMPLETED_WITH_FAILURE",
+        "COMPLETED_POST_PROCESSING_FAILED"
+      ]
     }
   }
 }
