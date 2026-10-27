@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ErrorLinks",
+  "description": "Introduced in Apple School Manager API 1.7.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/appleschoolmanagerapi/errorlinks",
+  "x-apple-developer-api-version": "1.7",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/appleschoolmanagerapi/errorlinks.json",
+  "type": "object",
+  "properties": {
+    "about": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "associated": {
+      "$ref": "ErrorLinks.Associated.json"
+    }
+  }
+}

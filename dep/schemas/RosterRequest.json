@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RosterRequest",
+  "description": "The request for a list of classes.\n\nIntroduced in Device Assignment Services 5.0.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/rosterrequest",
+  "x-apple-developer-api-version": "5.0",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/rosterrequest.json",
+  "type": "object",
+  "properties": {
+    "cursor": {
+      "description": "A hex string that represents the starting position for a request. This is used for pagination. On the initial request, this should be omitted.",
+      "type": "string"
+    },
+    "limit": {
+      "description": "The maximum number of entries to return.",
+      "type": "integer"
+    }
+  }
+}

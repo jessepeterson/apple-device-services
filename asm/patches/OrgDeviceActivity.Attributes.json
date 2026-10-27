@@ -1,0 +1,46 @@
+[
+  {
+    "op": "test",
+    "path": "/properties/status/type",
+    "value": "string"
+  },
+  {
+    "op": "remove",
+    "path": "/properties/status/type"
+  },
+  {
+    "op": "add",
+    "path": "/properties/status/enum",
+    "value": [
+      "COMPLETED",
+      "IN_PROGRESS",
+      "STOPPED",
+      "FAILED"
+    ]
+  },
+  {
+    "op": "test",
+    "path": "/properties/subStatus/type",
+    "value": "string"
+  },
+  {
+    "op": "remove",
+    "path": "/properties/subStatus/type"
+  },
+  {
+    "op": "add",
+    "path": "/properties/subStatus/enum",
+    "value": [
+      "SUBMITTED",
+      "PRE_PROCESSING",
+      "PENDING",
+      "PROCESSING",
+      "POST_PROCESSING",
+      "STOPPING",
+      "COMPLETED_WITH_SUCCESS",
+      "COMPLETED_WITH_ERROR",
+      "COMPLETED_WITH_FAILURE",
+      "COMPLETED_POST_PROCESSING_FAILED"
+    ]
+  }
+]

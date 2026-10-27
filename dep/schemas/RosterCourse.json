@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RosterCourse",
+  "description": "A course’s properties and their values.\n\nIntroduced in Device Assignment Services 5.0.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/rostercourse",
+  "x-apple-developer-api-version": "5.0",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/rostercourse.json",
+  "type": "object",
+  "properties": {
+    "course_number": {
+      "description": "The number of the course.",
+      "type": "string"
+    },
+    "name": {
+      "description": "The course name. Maximum length 1024 UTF-8 characters.",
+      "type": "string"
+    },
+    "op_date": {
+      "description": "The time stamp, in iSO 8601 format, when the course was added, updated, or deleted.",
+      "type": "string"
+    },
+    "source": {
+      "description": "The data source where the class was created.",
+      "enum": [
+        "LDAP",
+        "SIS",
+        "CSV",
+        "MANUAL",
+        "SYSTEM",
+        "ENROLLMENT",
+        "DEP",
+        "FORMULA_GENERATED",
+        "SFTP"
+      ]
+    },
+    "source_system_identifier": {
+      "description": "The identifier configured by organization for the course. Maximum length is 256 UTF-8 characters. Value can be null.",
+      "type": "string"
+    },
+    "status": {
+      "description": "The status for the course.",
+      "type": "string"
+    },
+    "unique_identifier": {
+      "description": "The unique identifier for the course. Maximum length 256 UTF-8 characters.",
+      "type": "string"
+    }
+  }
+}

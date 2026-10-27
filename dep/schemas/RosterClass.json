@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RosterClass",
+  "description": "A class’s properties and their values.\n\nIntroduced in Device Assignment Services 5.0.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/rosterclass",
+  "x-apple-developer-api-version": "5.0",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/rosterclass.json",
+  "type": "object",
+  "properties": {
+    "class_display_name": {
+      "description": "The Class Nickname in Apple School Manager. This name appears in the Schoolwork app and is modifiable by teachers within Schoolwork or by admins within Apple School Manager. Use this field for Classroom and Shared iPad class configurations.\n\nAvailable in X-Protocol Version 5 and later.",
+      "type": "string"
+    },
+    "class_icon_identifier": {
+      "description": "The class icon selected by teachers when they create or update the class via Schoolwork.\n\nAvailable in X-Protocol Version 5 and later.",
+      "type": "string"
+    },
+    "class_number": {
+      "description": "The class number. Maximum string length is 256 UTF-8 characters.\n\nAvailable in X-Protocol Version 4 and later.",
+      "type": "string"
+    },
+    "course": {
+      "description": "The base course for this course.",
+      "$ref": "BaseRosterCourse.json"
+    },
+    "instructor_unique_identifiers": {
+      "description": "Unique identification for instructors. Each string in the array has a maximum length of 256 UTF-8 characters. Value can be null.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "location": {
+      "description": "The base location for this course.",
+      "$ref": "BaseRosterLocation.json"
+    },
+    "name": {
+      "description": "The class name as displayed in Apple School Manager. Maximum length is 1024 UTF-8 characters.",
+      "type": "string"
+    },
+    "op_date": {
+      "description": "The most recent update timestamp for this class.\n\nAvailable in X-Protocol Version 3 and later.",
+      "type": "string"
+    },
+    "room": {
+      "description": "The room where class is held. Maximum length is 512 UTF-8 characters.",
+      "type": "string"
+    },
+    "source": {
+      "description": "The data source where class was created. Maximum length is 64 UTF-8 characters.",
+      "enum": [
+        "LDAP",
+        "SIS",
+        "CSV",
+        "MANUAL",
+        "SYSTEM",
+        "ENROLLMENT",
+        "DEP",
+        "FORMULA_GENERATED",
+        "SFTP"
+      ]
+    },
+    "source_system_identifier": {
+      "description": "The identifier configured by the organization for its classes. Maximum length is 256 UTF-8 characters. See Note.",
+      "type": "string"
+    },
+    "status": {
+      "description": "The status of the class. Possible values: `Active and Inactive`.\n\nAvailable in X-Protocol Version 3 and later.",
+      "type": "string"
+    },
+    "student_unique_identifiers": {
+      "description": "The unique identifiers for students. Each string in the array has a maximum length of 256 UTF-8 characters. Value can be null.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unique_identifier": {
+      "description": "The global unique identifier for the class. Maximum length is 256 UTF-8 characters.",
+      "type": "string"
+    }
+  }
+}

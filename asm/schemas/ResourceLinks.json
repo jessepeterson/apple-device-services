@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ResourceLinks",
+  "description": "Self-links to requested resources.\n\nIntroduced in Apple School Manager API 1.7.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/appleschoolmanagerapi/resourcelinks",
+  "x-apple-developer-api-version": "1.7",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/appleschoolmanagerapi/resourcelinks.json",
+  "type": "object",
+  "properties": {
+    "self": {
+      "description": "The link to the resource.",
+      "type": "string",
+      "format": "uri-reference"
+    }
+  }
+}

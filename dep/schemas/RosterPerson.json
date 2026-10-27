@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RosterPerson",
+  "description": "A person’s properties and their values.\n\nIntroduced in Device Assignment Services 5.0.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/rosterperson",
+  "x-apple-developer-api-version": "5.0",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/rosterperson.json",
+  "type": "object",
+  "properties": {
+    "email_address": {
+      "description": "The email address of the person that Apple School Manager displays. Available in X-Protocol version 5 and later.",
+      "type": "string"
+    },
+    "first_name": {
+      "description": "The person’s first (given) name. Maximum length iw 1024 UTF-8 characters. Available in protocol version 3 and later.",
+      "type": "string"
+    },
+    "grade": {
+      "description": "The grade information for the student. Maximum length is 256 UTF-8 characters. Value can be null. Not used for instructors.",
+      "type": "string"
+    },
+    "is_federated_auth": {
+      "description": "If `true`, the system enables federated authentication for the person from an external identity provider. Available in X-Protocol version 6 and later.",
+      "type": "boolean"
+    },
+    "last_name": {
+      "description": "The person’s last name. Maximum length is 1024 UTF-8 characters. Available in protocol version 3 and later.",
+      "type": "string"
+    },
+    "managed_apple_id": {
+      "description": "The Managed Apple Account for the person. Maximum length is 1024 UTF-8 characters.",
+      "type": "string"
+    },
+    "middle_name": {
+      "description": "The person’s middle name. Maximum length is 1024 UTF-8 characters. Available in protocol version 3 and later.",
+      "type": "string"
+    },
+    "name": {
+      "description": "The person’s name. Maximum length is 1024 UTF-8 characters.",
+      "type": "string"
+    },
+    "op_date": {
+      "description": "The time stamp, in iSO 8601 format, when the system added, updated, or deleted the person.",
+      "type": "string"
+    },
+    "passcode_type": {
+      "description": "The password policy of the person. Possible values are `complex`, `four`, or `six`. Available in protocol version 3 and later.",
+      "type": "string"
+    },
+    "person_id": {
+      "description": "The `personid` of the person that Apple School Manager displays. Available in X-Protocol version 4 and later.",
+      "type": "string"
+    },
+    "sis_username": {
+      "description": "The SIS `username` of the person that Apple School Manager displays. Available in X-Protocol version 5 and later.",
+      "type": "string"
+    },
+    "source": {
+      "description": "The creation data source of the class.",
+      "enum": [
+        "LDAP",
+        "SIS",
+        "CSV",
+        "MANUAL",
+        "SYSTEM",
+        "ENROLLMENT",
+        "DEP",
+        "FORMULA_GENERATED",
+        "SFTP"
+      ]
+    },
+    "source_system_identifier": {
+      "description": "The identifier that the organization configures for the person. Maximum length is 256 UTF-8 characters.",
+      "type": "string"
+    },
+    "status": {
+      "description": "The status of the person. Possible values are `Active,` `InActive,` `FailedPasswordLocked`, and `AtoLocked`. `AtoLocked` indicates that the system detects account take over and temporarily locks the person until an authentic user claims it. Available in X-Protocol version 3 and later.",
+      "type": "string"
+    },
+    "unique_identifier": {
+      "description": "The unique identifier for the person. Maximum length 256 UTF-8 characters.",
+      "type": "string"
+    }
+  }
+}

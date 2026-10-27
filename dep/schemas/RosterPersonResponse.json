@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RosterPersonResponse",
+  "description": "The response that contains the people in the organization.\n\nIntroduced in Device Assignment Services 5.0.",
+  "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/rosterpersonresponse",
+  "x-apple-developer-api-version": "5.0",
+  "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/rosterpersonresponse.json",
+  "type": "object",
+  "properties": {
+    "cursor": {
+      "description": "A hex string that should be used for the next request to paginate. This field data type has a maximum length of 512 UTF-8 characters.",
+      "type": "string"
+    },
+    "more_to_follow": {
+      "description": "Indicates whether the request’s limit and cursor values resulted in only a partial list of classes. If `true`, the Mobile Device Management server should then make another request (starting from the newly returned cursor) to obtain additional records.",
+      "type": "boolean"
+    },
+    "persons": {
+      "description": "Provides information about persons, both teachers and students, sorted in lexical order by a person `source_system_identifier`. The organization must provide this identifier to Apple.",
+      "type": "array",
+      "items": {
+        "$ref": "RosterPerson.json"
+      }
+    }
+  }
+}
