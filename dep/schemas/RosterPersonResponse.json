@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "RosterPersonResponse",
-  "description": "The response that contains the people in the organization.\n\nIntroduced in Device Assignment Services 5.0.",
+  "description": "The response that contains the people in the organization.\n\nDevice Assignment Services 5.0+",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/rosterpersonresponse",
   "x-apple-developer-api-version": "5.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/rosterpersonresponse.json",

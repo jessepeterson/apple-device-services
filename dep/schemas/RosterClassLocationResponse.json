@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "RosterClassLocationResponse",
-  "description": "The response that contains a list of locations.\n\nIntroduced in Device Assignment Services 5.0.",
+  "description": "The response that contains a list of locations.\n\nDevice Assignment Services 5.0+",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/rosterclasslocationresponse",
   "x-apple-developer-api-version": "5.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/rosterclasslocationresponse.json",

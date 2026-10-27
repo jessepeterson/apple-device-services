@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Limit",
-  "description": "A ranged limit.\n\nIntroduced in Device Assignment Services 5.0.",
+  "description": "A ranged limit.\n\nDevice Assignment Services 5.0+",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/limit",
   "x-apple-developer-api-version": "5.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/limit.json",

@@ -482,13 +482,13 @@ def introduced_text(doc: JSON) -> str:
     """
     platforms = doc.get("metadata", {}).get("platforms") or []
     names = [
-        f"{p.get('name')} {p['introducedAt']}"
+        f"{p.get('name')} {p['introducedAt']}+"
         for p in platforms
         if p.get("introducedAt")
     ]
     if not names:
         return ""
-    return f"Introduced in {', '.join(names)}."
+    return ', '.join(names)
 
 
 def api_version(doc: JSON) -> str | None:

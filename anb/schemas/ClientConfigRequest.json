@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ClientConfigRequest",
-  "description": "The request for the client configuration.\n\nIntroduced in VPP License Management 2.0.",
+  "description": "The request for the client configuration.\n\nVPP License Management 2.0+",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/clientconfigrequest",
   "x-apple-developer-api-version": "2.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/clientconfigrequest.json",

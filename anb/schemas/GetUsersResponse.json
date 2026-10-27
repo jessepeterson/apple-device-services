@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "GetUsersResponse",
-  "description": "The paginated response that contains the requested users.\n\nIntroduced in VPP License Management 2.0.",
+  "description": "The paginated response that contains the requested users.\n\nVPP License Management 2.0+",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/getusersresponse",
   "x-apple-developer-api-version": "2.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/getusersresponse.json",

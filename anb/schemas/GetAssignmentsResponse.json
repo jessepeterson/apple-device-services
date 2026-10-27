@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "GetAssignmentsResponse",
-  "description": "The paginated response that contains requested assignments.\n\nIntroduced in VPP License Management 2.0.",
+  "description": "The paginated response that contains requested assignments.\n\nVPP License Management 2.0+",
   "x-apple-developer-api-uri": "https://developer.apple.com/documentation/devicemanagement/getassignmentsresponse",
   "x-apple-developer-api-version": "2.0",
   "x-apple-developer-data-uri": "https://developer.apple.com/tutorials/data/documentation/devicemanagement/getassignmentsresponse.json",
