@@ -43,7 +43,8 @@
     },
     "op_date": {
       "description": "The most recent update timestamp for this class.\n\nAvailable in X-Protocol Version 3 and later.",
-      "type": "string"
+      "type": "string",
+      "format": "date-time"
     },
     "room": {
       "description": "The room where class is held. Maximum length is 512 UTF-8 characters.",

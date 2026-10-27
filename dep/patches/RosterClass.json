@@ -38,5 +38,10 @@
     "op": "add",
     "path": "/properties/unique_identifier/maxLength",
     "value": 256
+  },
+  {
+    "op": "add",
+    "path": "/properties/op_date/format",
+    "value": "date-time"
   }
 ]
