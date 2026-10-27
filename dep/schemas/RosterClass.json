@@ -17,7 +17,8 @@
     },
     "class_number": {
       "description": "The class number. Maximum string length is 256 UTF-8 characters.\n\nAvailable in X-Protocol Version 4 and later.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     },
     "course": {
       "description": "The base course for this course.",
@@ -27,7 +28,8 @@
       "description": "Unique identification for instructors. Each string in the array has a maximum length of 256 UTF-8 characters. Value can be null.",
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "maxLength": 256
       }
     },
     "location": {
@@ -36,7 +38,8 @@
     },
     "name": {
       "description": "The class name as displayed in Apple School Manager. Maximum length is 1024 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 1024
     },
     "op_date": {
       "description": "The most recent update timestamp for this class.\n\nAvailable in X-Protocol Version 3 and later.",
@@ -44,7 +47,8 @@
     },
     "room": {
       "description": "The room where class is held. Maximum length is 512 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 512
     },
     "source": {
       "description": "The data source where class was created. Maximum length is 64 UTF-8 characters.",
@@ -58,11 +62,13 @@
         "DEP",
         "FORMULA_GENERATED",
         "SFTP"
-      ]
+      ],
+      "maxLength": 64
     },
     "source_system_identifier": {
       "description": "The identifier configured by the organization for its classes. Maximum length is 256 UTF-8 characters. See Note.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     },
     "status": {
       "description": "The status of the class. Possible values: `Active and Inactive`.\n\nAvailable in X-Protocol Version 3 and later.",
@@ -72,12 +78,14 @@
       "description": "The unique identifiers for students. Each string in the array has a maximum length of 256 UTF-8 characters. Value can be null.",
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "maxLength": 256
       }
     },
     "unique_identifier": {
       "description": "The global unique identifier for the class. Maximum length is 256 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     }
   }
 }

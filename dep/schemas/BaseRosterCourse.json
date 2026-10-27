@@ -9,11 +9,13 @@
   "properties": {
     "name": {
       "description": "The course name. The maximum length is 1024 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 1024
     },
     "unique_identifier": {
       "description": "The global unique identifier for the location. The maximum length is 256 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     }
   }
 }

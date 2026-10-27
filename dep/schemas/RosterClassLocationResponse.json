@@ -9,7 +9,8 @@
   "properties": {
     "cursor": {
       "description": "A hex string that should be used for the next request to paginate. This field data type has a maximum length of 512 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 512
     },
     "locations": {
       "description": "Provides information about locations, sorted in lexical order by a location `source_system_identifier`. The organization must provide this identifier to Apple.",

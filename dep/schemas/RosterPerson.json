@@ -13,11 +13,13 @@
     },
     "first_name": {
       "description": "The person’s first (given) name. Maximum length iw 1024 UTF-8 characters. Available in protocol version 3 and later.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 1024
     },
     "grade": {
       "description": "The grade information for the student. Maximum length is 256 UTF-8 characters. Value can be null. Not used for instructors.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     },
     "is_federated_auth": {
       "description": "If `true`, the system enables federated authentication for the person from an external identity provider. Available in X-Protocol version 6 and later.",
@@ -25,19 +27,23 @@
     },
     "last_name": {
       "description": "The person’s last name. Maximum length is 1024 UTF-8 characters. Available in protocol version 3 and later.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 1024
     },
     "managed_apple_id": {
       "description": "The Managed Apple Account for the person. Maximum length is 1024 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 1024
     },
     "middle_name": {
       "description": "The person’s middle name. Maximum length is 1024 UTF-8 characters. Available in protocol version 3 and later.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 1024
     },
     "name": {
       "description": "The person’s name. Maximum length is 1024 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 1024
     },
     "op_date": {
       "description": "The time stamp, in iSO 8601 format, when the system added, updated, or deleted the person.",
@@ -71,7 +77,8 @@
     },
     "source_system_identifier": {
       "description": "The identifier that the organization configures for the person. Maximum length is 256 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     },
     "status": {
       "description": "The status of the person. Possible values are `Active,` `InActive,` `FailedPasswordLocked`, and `AtoLocked`. `AtoLocked` indicates that the system detects account take over and temporarily locks the person until an authentic user claims it. Available in X-Protocol version 3 and later.",
@@ -79,7 +86,8 @@
     },
     "unique_identifier": {
       "description": "The unique identifier for the person. Maximum length 256 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     }
   }
 }

@@ -13,7 +13,8 @@
     },
     "name": {
       "description": "The course name. Maximum length 1024 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 1024
     },
     "op_date": {
       "description": "The time stamp, in iSO 8601 format, when the course was added, updated, or deleted.",
@@ -35,7 +36,8 @@
     },
     "source_system_identifier": {
       "description": "The identifier configured by organization for the course. Maximum length is 256 UTF-8 characters. Value can be null.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     },
     "status": {
       "description": "The status for the course.",
@@ -43,7 +45,8 @@
     },
     "unique_identifier": {
       "description": "The unique identifier for the course. Maximum length 256 UTF-8 characters.",
-      "type": "string"
+      "type": "string",
+      "maxLength": 256
     }
   }
 }

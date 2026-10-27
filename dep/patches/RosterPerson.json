@@ -1,0 +1,42 @@
+[
+  {
+    "op": "add",
+    "path": "/properties/first_name/maxLength",
+    "value": 1024
+  },
+  {
+    "op": "add",
+    "path": "/properties/grade/maxLength",
+    "value": 256
+  },
+  {
+    "op": "add",
+    "path": "/properties/last_name/maxLength",
+    "value": 1024
+  },
+  {
+    "op": "add",
+    "path": "/properties/managed_apple_id/maxLength",
+    "value": 1024
+  },
+  {
+    "op": "add",
+    "path": "/properties/middle_name/maxLength",
+    "value": 1024
+  },
+  {
+    "op": "add",
+    "path": "/properties/name/maxLength",
+    "value": 1024
+  },
+  {
+    "op": "add",
+    "path": "/properties/source_system_identifier/maxLength",
+    "value": 256
+  },
+  {
+    "op": "add",
+    "path": "/properties/unique_identifier/maxLength",
+    "value": 256
+  }
+]
